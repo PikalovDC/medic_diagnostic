@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
 ##from dotenv import load_dotenv  # Добавляем эту строку
 
 # Загружаем переменные окружения из .env файла
-##load_dotenv()
+load_dotenv()
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -173,8 +176,15 @@ USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+]
 
 # Медиа файлы
 MEDIA_URL = '/media/'
@@ -287,22 +297,3 @@ JAZZMIN_SETTINGS = {
 }
 
 # Дополнительные настройки UI
-JAZZMIN_SETTINGS = {
-    "site_title": "Медицинский Центр",
-    "site_header": "МедДиагностика",
-    "site_brand": "МедДиагностика",
-    "welcome_sign": "Добро пожаловать в панель управления",
-    "copyright": "Медицинский Диагностический Центр",
-    "search_model": ["services.Service", "services.ServiceCategory"],
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "services.Service": "fas fa-stethoscope",
-        "services.ServiceCategory": "fas fa-list",
-    },
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-}

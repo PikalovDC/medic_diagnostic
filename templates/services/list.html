@@ -1,0 +1,87 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Наши услуги{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row mb-5">
+        <div class="col-12 text-center">
+            <h1 class="display-4 fw-bold text-primary mb-3">Наши услуги</h1>
+            <p class="lead text-muted">Полный спектр медицинских услуг для вашего здоровья</p>
+        </div>
+    </div>
+
+    {% for category in categories %}
+    <div class="row mb-5">
+        <div class="col-12 mb-4">
+            <h2 class="h3 border-bottom border-primary pb-2">
+                <i class="bi {{ category.icon }} text-primary me-2"></i>
+                {{ category.name }}
+            </h2>
+            {% if category.description %}
+            <p class="text-muted">{{ category.description }}</p>
+            {% endif %}
+        </div>
+
+        {% for service in category.services.all %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm service-card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ service.name }}</h5>
+                    <p class="card-text text-muted">{{ service.description|truncatechars:100 }}</p>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <span class="badge bg-primary">
+                            <i class="bi bi-clock me-1"></i>{{ service.duration }} мин
+                        </span>
+                        <span class="fw-bold text-success fs-5">{{ service.price }} руб.</span>
+                    </div>
+
+                    <div class="mt-3">
+                        <a href="{% url 'services:detail' service.slug %}" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-info-circle me-1"></i>Подробнее
+                        </a>
+                        <a href="{% url 'appointments:create' %}?service={{ service.id }}" class="btn btn-primary btn-sm float-end">
+                            <i class="bi bi-calendar-plus me-1"></i>Записаться
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle me-2"></i>
+                В этой категории пока нет услуг
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% empty %}
+    <div class="row">
+        <div class="col-12">
+            <div class="alert alert-warning text-center py-5">
+                <i class="bi bi-exclamation-triangle fs-1 d-block mb-3"></i>
+                <h4>Услуги скоро будут добавлены</h4>
+                <p class="mb-0">Мы работаем над наполнением каталога</p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Призыв к действию -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-primary text-white">
+                <div class="card-body p-5 text-center">
+                    <h3 class="card-title mb-3">Не нашли нужную услугу?</h3>
+                    <p class="card-text mb-4">Позвоните нам, и мы подберем для вас индивидуальную программу диагностики</p>
+                    <a href="tel:+74951234567" class="btn btn-light btn-lg px-5">
+                        <i class="bi bi-telephone me-2"></i>+7 (495) 123-45-67
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

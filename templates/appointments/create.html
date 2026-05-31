@@ -1,0 +1,211 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Хлебные крошки -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'appointments:list' %}">Мои записи</a></li>
+            <li class="breadcrumb-item active">Новая запись</li>
+        </ol>
+    </nav>
+
+    <h1 class="mb-4">
+        <i class="bi bi-calendar-plus text-primary me-2"></i>{{ title }}
+    </h1>
+
+    <div class="row">
+        <!-- Форма записи -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="bi bi-clipboard-check me-2"></i>Заполните форму
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="post" id="appointmentForm">
+                        {% csrf_token %}
+
+                        <!-- Шаг 1: Выбор услуги -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 border-bottom border-primary pb-2">1. Выберите услугу</h5>
+                            <div class="row">
+                                {% for service in services %}
+                                <div class="col-md-6 mb-3">
+                                    <div class="card service-card h-100"
+                                         onclick="document.getElementById('service{{ service.id }}').checked = true; highlightCard(this)">
+                                        <div class="card-body">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio"
+                                                       name="service" id="service{{ service.id }}"
+                                                       value="{{ service.id }}" required>
+                                                <label class="form-check-label w-100" for="service{{ service.id }}">
+                                                    <strong class="d-block">{{ service.name }}</strong>
+                                                    <small class="text-muted d-block mb-2">{{ service.description|truncatechars:80 }}</small>
+                                                    <div class="d-flex justify-content-between">
+                                                        <span class="text-success fw-bold">{{ service.price }} руб.</span>
+                                                        <span class="badge bg-primary">
+                                                            <i class="bi bi-clock me-1"></i>{{ service.duration }} мин
+                                                        </span>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% empty %}
+                                <div class="col-12">
+                                    <div class="alert alert-warning">
+                                        <i class="bi bi-exclamation-triangle me-2"></i>
+                                        Нет доступных услуг
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Шаг 2: Дата и время -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 border-bottom border-primary pb-2">2. Выберите дату и время</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label for="appointmentDate" class="form-label fw-bold">Дата приема *</label>
+                                    <input type="date" class="form-control" id="appointmentDate"
+                                           name="appointment_date" required min="{{ min_date }}">
+                                    <small class="text-muted">Минимальная дата: завтра</small>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="appointmentTime" class="form-label fw-bold">Время приема *</label>
+                                    <select class="form-select" id="appointmentTime" name="appointment_time" required>
+                                        <option value="">Выберите время</option>
+                                        <option value="09:00">09:00</option>
+                                        <option value="10:00">10:00</option>
+                                        <option value="11:00">11:00</option>
+                                        <option value="12:00">12:00</option>
+                                        <option value="14:00">14:00</option>
+                                        <option value="15:00">15:00</option>
+                                        <option value="16:00">16:00</option>
+                                        <option value="17:00">17:00</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 3: Примечания -->
+                        <div class="mb-4">
+                            <h5 class="mb-3 border-bottom border-primary pb-2">3. Дополнительная информация</h5>
+                            <div class="form-floating">
+                                <textarea class="form-control" placeholder="Оставьте комментарий"
+                                          id="notes" name="notes" style="height: 100px"></textarea>
+                                <label for="notes">Примечания (симптомы, пожелания, вопросы)</label>
+                            </div>
+                        </div>
+
+                        <!-- Кнопка отправки -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg py-3">
+                                <i class="bi bi-check-circle me-2"></i>Записаться на прием
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Боковая информация -->
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="bi bi-telephone text-primary me-2"></i>Контактная информация
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="mb-2">
+                            <i class="bi bi-telephone me-2"></i>
+                            <strong>Телефон:</strong><br>
+                            <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-whatsapp me-2"></i>
+                            <strong>WhatsApp:</strong><br>
+                            <a href="https://wa.me/74951234567">+7 (999) 123-45-67</a>
+                        </li>
+                        <li class="mb-2">
+                            <i class="bi bi-clock me-2"></i>
+                            <strong>Режим работы:</strong><br>
+                            Пн-Пт: 8:00-20:00<br>
+                            Сб: 9:00-18:00
+                        </li>
+                        <li>
+                            <i class="bi bi-geo-alt me-2"></i>
+                            <strong>Адрес:</strong><br>
+                            г. Москва, ул. Медицинская, 15
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h6 class="mb-0">
+                        <i class="bi bi-info-circle text-primary me-2"></i>Важная информация
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning small">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Подготовка к приему:</strong><br>
+                        • Приходите за 10-15 минут до назначенного времени<br>
+                        • Возьмите с собой паспорт и медицинский полис<br>
+                        • При наличии - предыдущие результаты анализов
+                    </div>
+                    <div class="alert alert-info small">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <strong>Подтверждение записи:</strong><br>
+                        Наш администратор свяжется с вами в течение 2 часов для подтверждения записи.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function highlightCard(element) {
+    document.querySelectorAll('.service-card').forEach(card => {
+        card.classList.remove('border-primary', 'border-2');
+    });
+    element.classList.add('border-primary', 'border-2');
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const minDate = tomorrow.toISOString().split('T')[0];
+    const dateInput = document.getElementById('appointmentDate');
+    if (dateInput) {
+        dateInput.min = minDate;
+    }
+});
+</script>
+
+<style>
+.service-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.service-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.2);
+}
+.service-card.border-primary {
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.25);
+}
+</style>
+{% endblock %}

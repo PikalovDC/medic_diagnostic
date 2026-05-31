@@ -1,0 +1,139 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Хлебные крошки -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}">Главная</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'services:list' %}">Услуги</a></li>
+            <li class="breadcrumb-item active">{{ service.name }}</li>
+        </ol>
+    </nav>
+
+    <div class="row">
+        <!-- Основная информация -->
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body p-4">
+                    <h1 class="card-title h2 mb-3">{{ service.name }}</h1>
+
+                    <div class="d-flex align-items-center mb-4">
+                        <span class="badge bg-primary me-3">
+                            <i class="bi {{ service.category.icon }} me-1"></i>
+                            {{ service.category.name }}
+                        </span>
+                        <span class="text-muted me-3">
+                            <i class="bi bi-clock me-1"></i>{{ service.duration }} мин
+                        </span>
+                        <span class="fs-4 fw-bold text-success">
+                            {{ service.price }} руб.
+                        </span>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="h5 text-primary mb-3">Описание услуги</h4>
+                        <p class="lead">{{ service.description }}</p>
+
+                        {% if service.full_description %}
+                        <div class="mt-3">
+                            {{ service.full_description|linebreaks }}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    {% if service.preparation %}
+                    <div class="mb-4">
+                        <h4 class="h5 text-primary mb-3">
+                            <i class="bi bi-clipboard-check me-2"></i>Подготовка к исследованию
+                        </h4>
+                        <div class="bg-light p-3 rounded">
+                            {{ service.preparation|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if service.contraindications %}
+                    <div class="mb-4">
+                        <h4 class="h5 text-primary mb-3">
+                            <i class="bi bi-exclamation-triangle me-2"></i>Противопоказания
+                        </h4>
+                        <div class="bg-light p-3 rounded">
+                            {{ service.contraindications|linebreaks }}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Боковая панель -->
+        <div class="col-lg-4">
+            <div class="sticky-top" style="top: 20px;">
+                <!-- Запись на прием - РАБОЧАЯ КНОПКА -->
+                <div class="card border-primary mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="bi bi-calendar-check me-2"></i>Запись на прием
+                        </h5>
+                    </div>
+                    <div class="card-body text-center py-4">
+                        <i class="bi bi-calendar-plus display-1 text-primary mb-3 d-block"></i>
+                        <p class="card-text mb-3">Запишитесь на услугу <strong>{{ service.name }}</strong> прямо сейчас</p>
+                        <!-- ПРОВЕРЬТЕ, ЧТО service.id СУЩЕСТВУЕТ -->
+                        <a href="{% url 'appointments:create' %}?service={{ service.id }}" class="btn btn-primary btn-lg w-100">
+                            <i class="bi bi-check-circle me-2"></i>Записаться
+                        </a>
+                        <small class="text-muted d-block mt-3">
+                            <i class="bi bi-clock me-1"></i>Длительность: {{ service.duration }} минут
+                        </small>
+                    </div>
+                </div>
+
+                <!-- Контакты -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-telephone text-primary me-2"></i>Контакты
+                        </h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                <i class="bi bi-phone me-2"></i>+7 (495) 123-45-67
+                            </li>
+                            <li class="mb-2">
+                                <i class="bi bi-clock me-2"></i>Пн-Пт: 8:00-20:00
+                            </li>
+                            <li>
+                                <i class="bi bi-geo-alt me-2"></i>г. Москва, ул. Медицинская, 15
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Похожие услуги -->
+                {% if similar_services %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="bi bi-arrow-right-circle text-primary me-2"></i>Похожие услуги
+                        </h5>
+                        <ul class="list-unstyled">
+                            {% for similar in similar_services %}
+                            <li class="mb-2">
+                                <a href="{% url 'services:detail' similar.slug %}" class="text-decoration-none">
+                                    {{ similar.name }}
+                                </a>
+                                <span class="text-muted small d-block">{{ similar.price }} руб.</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

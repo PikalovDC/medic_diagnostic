@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Услуги</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .service { border: 1px solid #ddd; padding: 15px; margin: 10px 0; }
+        .price { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Наши услуги</h1>
+
+    {% if categories %}
+        {% for category in categories %}
+        <h2>{{ category.name }}</h2>
+        <p>{{ category.description }}</p>
+
+        {% if category.services.all %}
+            {% for service in category.services.all %}
+            <div class="service">
+                <h3>{{ service.name }}</h3>
+                <p>{{ service.description }}</p>
+                <p class="price">{{ service.price }} руб.</p>
+                <p>Длительность: {{ service.duration }} мин</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p>В этой категории пока нет услуг</p>
+        {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>Категории услуг не найдены</p>
+    {% endif %}
+
+    <a href="/">На главную</a>
+</body>
+</html>
