@@ -10,7 +10,7 @@ router.register(r'api/categories', ServiceCategoryViewSet)
 router.register(r'api/services', ServiceViewSet)
 
 urlpatterns = [
+    path('api/', include(router.urls)),
     path('', views.service_list, name='list'),
     path('<slug:slug>/', views.service_detail, name='detail'),
-    path('api/', include(router.urls)),
 ]

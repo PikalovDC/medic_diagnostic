@@ -118,22 +118,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Простые настройки базы данных
-USE_POSTGRESQL = False  # Поставьте True если хотите использовать PostgreSQL
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if USE_POSTGRESQL:
-    # Настройки PostgreSQL
+if DATABASE_URL:
+    import dj_database_url
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'medical_db',
-            'USER': 'medical_user',
-            'PASSWORD': 'medical_password123',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
+        'default': dj_database_url.config(default=DATABASE_URL)
     }
 else:
-    # Настройки SQLite (проще для разработки)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

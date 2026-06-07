@@ -4,17 +4,18 @@
 
 ## 🚀 Особенности
 
-- **Современный адаптивный дизайн** на Bootstrap 5
-- **Полнофункциональная система записи** на прием
-- **Личные кабинеты** для пациентов и врачей
-- **Административная панель** для управления контентом
-- **REST API** для медицинских услуг
+- Современный адаптивный дизайн (светло-зеленая тема)
+- Полнофункциональная система записи на прием
+- Личные кабинеты для пациентов
+- Административная панель (Jazzmin)
+- REST API для медицинских услуг
+- Docker-контейнеризация
 
 ## 📋 Функционал
 
 ### Для пациентов:
 - 📝 Регистрация и авторизация
-- 📅 Запись на прием онлайн
+- 📅 Запись на прием онлайн и отмена записей
 - 📋 Просмотр истории записей
 - 💬 Обратная связь с клиникой
 
@@ -39,7 +40,7 @@
 
 git clone <ваш-репозиторий>
 
-cd medical_diagnostic
+cd medic_diagnostic
 
 - **Создание виртуального окружения**
 
@@ -71,11 +72,13 @@ python manage.py runserver
 
 - **Сборка и запуск**
 
-docker-compose -f docker-compose-simple.yml up --build
+docker-compose -f docker-compose.yml up --build
 
 - **Или для продакшена**
 
 docker-compose up --build
+
+Приложение будет доступно по адресу: http://localhost:8001
 
 
 ## 📁 Структура проекта
@@ -101,7 +104,7 @@ SECRET_KEY=ваш-секретный-ключ
 
 ALLOWED_HOSTS=127.0.0.1,localhost
 
-DATABASE_URL=sqlite:///db.sqlite3
+DATABASE_URL=postgres://пользователь_бд:пароль@localhost:5432/название_бд
 
 ## 👥 Тестовые пользователи
 **После запуска create_test_data.py создаются:**
@@ -109,17 +112,12 @@ DATABASE_URL=sqlite:///db.sqlite3
 - Врачи: dr_ivanov / doctor123, dr_petrova / doctor123
 - Пациент: testuser / test123
 
-## 📞 Контакты и поддержка
-- Email: support@meddiagnostic.ru
-- Сайт: http://meddiagnostic.ru
-- Телефон: +7 (495) 123-45-67
-
 ## 📄 Лицензия
 - MIT License
 
 ## 🎯 Демонстрация
-- Главная страница: /
-- Услуги: /services/
-- Запись на прием: /appointments/create/
-- Админ-панель: /admin/
--API: /services/api/
+- Список всех категорий услуг: /services/api/categories/
+- Детали категории: /services/api/categories/{id}/
+- Список всех активных услуг: /services/api/services/
+- Детали услуги: /services/api/services/{id}/
+- Фильтрация услуг по категории: /services/api/services/?category={id}

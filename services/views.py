@@ -8,34 +8,33 @@ def service_list(request):
     """Список всех услуг"""
     try:
         categories = ServiceCategory.objects.prefetch_related('services').all()
-
-        print(f"[DEBUG] Категорий: {categories.count()}")
-
         context = {
             'title': 'Наши услуги',
             'categories': categories,
         }
-
-        # ИСПРАВЛЕНО: используем list.html вместо list_simple.html
         return render(request, 'services/list.html', context)
 
-    except Exception as e:
-        print(f"[ERROR] service_list: {str(e)}")
-        import traceback
-        traceback.print_exc()
+    except ServiceCategory.DoesNotExist:
+        # Категорий нет в базе
+        return render(request, 'services/list.html', {'categories': []})
 
-        return HttpResponse(f"""
+    except Exception as e:
+        # Логируем неожиданную ошибку (но конкретные исключения выше уже обработаны)
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.error(f"Unexpected error in service_list: {str(e)}")
+
+        return HttpResponse("""
         <h1>Ошибка загрузки услуг</h1>
-        <p>Произошла ошибка: {str(e)}</p>
+        <p>Попробуйте позже или свяжитесь с администратором</p>
         <a href="/">На главную</a>
-        """)
+        """, status=500)
 
 
 def service_detail(request, slug):
     """Детальная информация об услуге"""
     service = get_object_or_404(Service, slug=slug, is_active=True)
 
-    # Получаем похожие услуги из той же категории
     similar_services = Service.objects.filter(
         category=service.category,
         is_active=True
