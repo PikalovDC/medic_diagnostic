@@ -1,9 +1,12 @@
 import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
 ##from dotenv import load_dotenv  # Добавляем эту строку
 
 # Загружаем переменные окружения из .env файла
-##load_dotenv()
+load_dotenv()
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
@@ -115,22 +118,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 # Простые настройки базы данных
-USE_POSTGRESQL = False  # Поставьте True если хотите использовать PostgreSQL
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if USE_POSTGRESQL:
-    # Настройки PostgreSQL
+if DATABASE_URL:
+    import dj_database_url
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'medical_db',
-            'USER': 'medical_user',
-            'PASSWORD': 'medical_password123',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
+        'default': dj_database_url.config(default=DATABASE_URL)
     }
 else:
-    # Настройки SQLite (проще для разработки)
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
@@ -173,8 +168,15 @@ USE_TZ = True
 
 # Статические файлы (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+]
 
 # Медиа файлы
 MEDIA_URL = '/media/'
@@ -287,22 +289,3 @@ JAZZMIN_SETTINGS = {
 }
 
 # Дополнительные настройки UI
-JAZZMIN_SETTINGS = {
-    "site_title": "Медицинский Центр",
-    "site_header": "МедДиагностика",
-    "site_brand": "МедДиагностика",
-    "welcome_sign": "Добро пожаловать в панель управления",
-    "copyright": "Медицинский Диагностический Центр",
-    "search_model": ["services.Service", "services.ServiceCategory"],
-    "show_sidebar": True,
-    "navigation_expanded": True,
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "services.Service": "fas fa-stethoscope",
-        "services.ServiceCategory": "fas fa-list",
-    },
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-}

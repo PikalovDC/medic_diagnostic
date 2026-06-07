@@ -1,0 +1,233 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Контакты{% endblock %}
+
+{% block content %}
+<!-- Hero секция -->
+<section class="hero-section mb-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    Контакты
+                    <span class="text-primary">медицинского центра</span>
+                </h1>
+                <p class="lead mb-4">
+                    Мы всегда готовы помочь вам. Свяжитесь с нами удобным способом.
+                </p>
+            </div>
+            <div class="col-lg-6">
+                <div class="rounded-lg overflow-hidden shadow bg-primary" style="height: 300px;">
+                    <div class="h-100 d-flex align-items-center justify-content-center text-white">
+                        <i class="bi bi-geo-alt display-1"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Контактная информация -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <h2 class="display-5 fw-bold mb-4">Как нас найти</h2>
+
+                <div class="row g-4 mb-5">
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <i class="bi bi-geo-alt text-primary fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-3">Адрес</h5>
+                                <p class="card-text text-muted mb-2">
+                                    <strong>г. Москва, ул. Медицинская, д. 15</strong>
+                                </p>
+                                <p class="text-muted small">
+                                    Ближайшие станции метро: <br>
+                                    • Медведково (5 мин пешком)<br>
+                                    • Бабушкинская (10 мин пешком)
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card h-100 border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="mb-3">
+                                    <i class="bi bi-clock text-primary fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-3">Режим работы</h5>
+                                <ul class="list-unstyled text-muted">
+                                    <li class="mb-2">
+                                        <strong>Понедельник - Пятница:</strong><br>
+                                        8:00 - 20:00
+                                    </li>
+                                    <li class="mb-2">
+                                        <strong>Суббота:</strong><br>
+                                        9:00 - 18:00
+                                    </li>
+                                    <li>
+                                        <strong>Воскресенье:</strong><br>
+                                        9:00 - 16:00
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Контактные телефоны -->
+                <h3 class="h2 mb-4">Контактные телефоны</h3>
+                <div class="row g-3 mb-5">
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-telephone text-primary fs-3 me-3"></i>
+                                    <div>
+                                        <h5 class="mb-1">Общий телефон</h5>
+                                        <p class="fs-4 fw-bold text-primary mb-0">+7 (495) 123-45-67</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-4">
+                                <div class="d-flex align-items-center">
+                                    <i class="bi bi-whatsapp text-success fs-3 me-3"></i>
+                                    <div>
+                                        <h5 class="mb-1">WhatsApp</h5>
+                                        <p class="fs-4 fw-bold text-success mb-0">+7 (999) 123-45-67</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Форма обратной связи -->
+                <h3 class="h2 mb-4">Обратная связь</h3>
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <form>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="name" placeholder="Ваше имя">
+                                        <label for="name">Ваше имя</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input type="email" class="form-control" id="email" placeholder="Email">
+                                        <label for="email">Email</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="phone" placeholder="Телефон">
+                                        <label for="phone">Телефон</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-floating">
+                                        <textarea class="form-control" placeholder="Сообщение" id="message" style="height: 150px"></textarea>
+                                        <label for="message">Сообщение</label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="consent">
+                                        <label class="form-check-label" for="consent">
+                                            Согласен на обработку персональных данных
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary btn-lg px-5">
+                                        Отправить сообщение
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Боковая панель -->
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top" style="top: 100px;">
+                    <div class="card-body p-4">
+                        <h5 class="card-title mb-4">Электронная почта</h5>
+
+                        <div class="mb-4">
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="bi bi-envelope text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Общие вопросы</h6>
+                                    <p class="text-muted mb-0">info@meddiagnostic.ru</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start mb-3">
+                                <i class="bi bi-envelope text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Запись на прием</h6>
+                                    <p class="text-muted mb-0">appointment@meddiagnostic.ru</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex align-items-start">
+                                <i class="bi bi-envelope text-primary me-3 fs-4"></i>
+                                <div>
+                                    <h6 class="mb-1">Вопросы по исследованиям</h6>
+                                    <p class="text-muted mb-0">results@meddiagnostic.ru</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <h5 class="card-title mb-3">Экстренная помощь</h5>
+                        <div class="alert alert-danger">
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-exclamation-triangle-fill me-3 fs-4"></i>
+                                <div>
+                                    <strong>Экстренный номер</strong><br>
+                                    <span class="fs-5">+7 (495) 987-65-43</span>
+                                    <p class="small mb-0 mt-1">Круглосуточно</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h6 class="mb-3">Мы в соцсетях</h6>
+                            <div class="d-flex gap-3">
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-telegram"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-whatsapp"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-vk"></i>
+                                </a>
+                                <a href="#" class="btn btn-outline-primary btn-sm">
+                                    <i class="bi bi-instagram"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
